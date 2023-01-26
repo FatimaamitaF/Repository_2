@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+     <title>Wireframe conversion</title>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+</head>
+
+<body>
+     <div class="weatherapp">
+          <form class="searchform" id="searchform">
+               <label for="site-search"></label>
+               <input type="search" id="site-search" name="q" placeholder="Type in city" />
+               <button>Search</button>
+          </form>
+
+          <body>
+               <br />
+
+               <div class="twops">
+                    <p class="date" id="date"></p>
+                    <p class="time" id="time"></p>
+               </div>
+
+               <h3 id="cityname">
+                    Cologne
+               </h3>
+               <br />
+               <h3 id="citytemp" class="citytemp">
+                    0ºC
+               </h3>
+          </body>
+          <script>
+               var datetime = new Date().toLocaleTimeString();
+                    console.log(datetime);
+                    document.getElementById("time").innerHTML = datetime;
+
+                    const days = [
+                         "Sunday",
+                         "Monday",
+                         "Tuesday",
+                         "Wednesday",
+                         "Thursday",
+                         "Friday",
+                         "Saturday"
+                    ];
+                    const d = new Date();
+                    let day = days[d.getDay()];
+                    document.getElementById("date").innerHTML = day;
+
+                    /////////////////////////////////////////////////////////////////////////
+                    function temperature(response) {
+                         console.log(response.data);
+                         let cityElement = document.querySelector("#cityname");
+                         cityElement.innerHTML = response.data.name;
+                         let temp = Math.round(response.data.main.temp);
+                         let tempelement = document.querySelector("#citytemp");
+                         tempelement.innerHTML = `${temp}°C`;
+                    }
+
+                    function search(event) {
+                         event.preventDefault();
+                         let cityInput = document.querySelector("#site-search").value;
+                         searchCity(cityInput);
+                    }
+
+                    function searchCity(city) {
+                         let apiKey = "0a521eaf234a3a56f45252fac3c737ad";
+                         let units = "metric";
+                         let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
+                         axios.get(`${url}&appid=${apiKey}`).then(temperature);
+                    }
+
+                    let searchForm = document.querySelector("#searchform");
+                    searchForm.addEventListener("submit", search);
+          </script>
+     </div>
+
+     <footer>Coded and designed by Fatima</footer>
+     <a href="https://github.com/FatimaamitaF/Repository_2/blob/main/index.html">Made with Netlify</a>
+</body>
+
+<style>
+     button {
+       border-radius: 15px;
+       background-color: gainsboro;
+       color: gray;
+       border-color: grey;
+       margin-bottom: 0.25cm;
+  }
+
+  input {
+       border-radius: 7px;
+       background-color: white;
+       color: blueviolet;
+       border-color: grey;
+  }
+
+  body {
+       position: fixed;
+       padding-left: 95px;
+       background-color: white;
+  }
+
+  .weatherapp {
+       background-color: rgba(119, 117, 250, 0.473);
+       margin: auto;
+       margin-top: 35px;
+       margin-right: 55px;
+       margin-bottom: 55px;
+       border-radius: 15px;
+       padding-top: 25px;
+       padding-right: 95px;
+       padding-left: 95px;
+       padding-bottom: 55px;
+  }
+
+  .today:hover {
+       transition: 0.35s;
+       color: rgb(221, 251, 251);
+  }
+
+  .twops p {
+       display: inline-block;
+  }
+</style>
+
+
+</html>
